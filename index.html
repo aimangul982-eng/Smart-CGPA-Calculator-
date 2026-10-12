@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart CGPA Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo">🎓</div>
+        <div>
+          <h1>Smart CGPA Calculator</h1>
+          <p class="tagline">Calculate • Track • Improve</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#student">Calculator</a>
+        <a href="#cgpa">CGPA</a>
+        <a href="#records">Saved Records</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="toast" class="toast" role="status"></div>
+
+    <!-- Student info -->
+    <section class="card" id="student">
+      <div class="card-head"><span class="icon">👤</span><h2>Student Information</h2></div>
+      <div class="grid4">
+        <label>Student Name<input id="studentName" maxlength="100" placeholder="e.g. Ali Ahmed" /><small class="err" data-for="studentName"></small></label>
+        <label>Roll Number<input id="rollNumber" maxlength="50" placeholder="e.g. BSIT-21-045" /><small class="err" data-for="rollNumber"></small></label>
+        <label>Department<input id="department" maxlength="100" placeholder="e.g. Information Technology" /><small class="err" data-for="department"></small></label>
+        <label>Semester
+          <select id="semester">
+            <option value="">Select semester</option>
+            <option>1st</option><option>2nd</option><option>3rd</option><option>4th</option>
+            <option>5th</option><option>6th</option><option>7th</option><option>8th</option>
+          </select><small class="err" data-for="semester"></small>
+        </label>
+      </div>
+    </section>
+
+    <!-- Subjects -->
+    <section class="card">
+      <div class="card-head"><span class="icon">📚</span><h2>Subjects</h2></div>
+      <div class="table-wrap">
+        <table class="subjects">
+          <thead><tr><th>#</th><th>Subject Name</th><th>Credit Hours</th><th>Grade</th><th>Points</th><th></th></tr></thead>
+          <tbody id="subjectBody"></tbody>
+        </table>
+      </div>
+      <div id="subjectError" class="alert error hidden"></div>
+      <div class="actions">
+        <button class="btn primary" id="addSubject">＋ Add Subject</button>
+        <button class="btn ghost" id="removeSubject">− Remove Subject</button>
+        <button class="btn ghost" id="clearAll">✕ Clear All</button>
+        <button class="btn accent" id="calcGpa">⚡ Calculate GPA</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>Total Subjects</span><strong id="statSubjects">0</strong></div>
+        <div class="stat"><span>Total Credit Hours</span><strong id="statCredits">0</strong></div>
+        <div class="stat highlight"><span>Semester GPA</span><strong id="statGpa">—</strong></div>
+      </div>
+    </section>
+
+    <!-- CGPA -->
+    <section class="card" id="cgpa">
+      <div class="card-head"><span class="icon">📈</span><h2>CGPA Calculation</h2></div>
+      <label class="check"><input type="checkbox" id="noPrevious" /> This is my first semester (no previous record)</label>
+      <div class="grid4">
+        <label>Previous CGPA<input id="prevCgpa" type="number" min="0" max="4" step="0.01" placeholder="0.00 – 4.00" /><small class="err" data-for="prevCgpa"></small></label>
+        <label>Previous Credit Hours<input id="prevCredits" type="number" min="0" step="1" placeholder="e.g. 54" /><small class="err" data-for="prevCredits"></small></label>
+        <label>Current Semester GPA<input id="curGpa" readonly placeholder="Calculate GPA first" /></label>
+        <label>Current Credit Hours<input id="curCredits" readonly placeholder="Calculate GPA first" /></label>
+      </div>
+      <div class="actions"><button class="btn accent" id="calcCgpa">🎯 Calculate CGPA</button></div>
+      <div class="cgpa-display hidden" id="cgpaDisplay">
+        <span>Overall CGPA</span>
+        <strong id="cgpaValue">0.00</strong>
+        <em class="badge" id="cgpaStatus"></em>
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section class="card result hidden" id="resultCard">
+      <div class="card-head"><span class="icon">🏅</span><h2>Result Summary</h2></div>
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="actions">
+        <button class="btn primary" id="saveResult">💾 Save Result</button>
+        <button class="btn ghost" id="resetAll">↺ Reset Calculator</button>
+      </div>
+    </section>
+
+    <!-- Records -->
+    <section class="card" id="records">
+      <div class="card-head between">
+        <div class="card-head"><span class="icon">🗂️</span><h2>Saved Records</h2></div>
+        <input id="search" class="search" placeholder="🔍 Search by name or roll number" />
+      </div>
+      <div class="table-wrap">
+        <table class="records">
+          <thead><tr><th>Student Name</th><th>Roll Number</th><th>Semester</th><th>GPA</th><th>CGPA</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="recordBody"></tbody>
+        </table>
+      </div>
+      <p id="noRecords" class="empty">No saved records yet.</p>
+    </section>
+  </main>
+
+  <!-- View modal -->
+  <div class="modal hidden" id="modal">
+    <div class="modal-box">
+      <div class="card-head between"><h2>Result Details</h2><button class="btn ghost sm" id="closeModal">✕</button></div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer class="footer">Smart CGPA Calculator · BS Information Technology Project · Calculate • Track • Improve</footer>
+  <script src="app.js"></script>
+</body>
+</html>
